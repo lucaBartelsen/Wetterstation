@@ -2,6 +2,8 @@ package de.swm.wetterstation.test;
 
 import com.tinkerforge.*;
 
+import java.sql.SQLException;
+
 /**
  * Created by luca on 05.07.2017.
  */
@@ -18,9 +20,15 @@ class WeatherListener implements IPConnection.EnumerateListener,
     private BrickletAmbientLightV2 brickletAmbientLightV2 = null;
     private BrickletHumidity brickletHumidity = null;
     private BrickletBarometer brickletBarometer = null;
+    private JDBC jdbc = null;
 
     public WeatherListener(IPConnection ipcon) {
         this.ipcon = ipcon;
+        try {
+            jdbc = new JDBC();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void illuminance(int illuminance) {
@@ -36,10 +44,10 @@ class WeatherListener implements IPConnection.EnumerateListener,
 
     public void illuminance(long illuminance) {
         if(brickletLCD != null) {
-            String text = String.format("Helligkeit%7.2f lx", illuminance/100.0);
             try {
-                brickletLCD.writeLine((short)0, (short)0, text);
-            } catch(com.tinkerforge.TinkerforgeException e) {
+            jdbc.updateQuery(illuminance/100.0, "helligkeit");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
         }
@@ -47,20 +55,20 @@ class WeatherListener implements IPConnection.EnumerateListener,
 
     public void humidity(int humidity) {
         if(brickletLCD != null) {
-            String text = String.format("Feuchtigkeit%6.2f %%", humidity/10.0);
             try {
-                brickletLCD.writeLine((short)1, (short)0, text);
-            } catch(com.tinkerforge.TinkerforgeException e) {
+            jdbc.updateQuery(humidity/10.0,"luftfeuchtigkeit");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public void airPressure(int airPressure) {
         if(brickletLCD != null) {
-            String text = String.format("Luftdruck %7.2f mb", airPressure/1000.0);
             try {
-                brickletLCD.writeLine((short)2, (short)0, text);
-            } catch(com.tinkerforge.TinkerforgeException e) {
+            jdbc.updateQuery(airPressure/1000.0, "luftdruck");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
             int temperature;
@@ -72,10 +80,10 @@ class WeatherListener implements IPConnection.EnumerateListener,
             }
 
             // 0xDF == ° on LCD 20x4 charset
-            text = String.format("Temperatur  %5.2f %cC", temperature/100.0, 0xDF);
             try {
-                brickletLCD.writeLine((short)3, (short)0, text);
-            } catch(com.tinkerforge.TinkerforgeException e) {
+            jdbc.updateQuery(temperature/100.0,"temperatur");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -99,7 +107,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletAmbientLight.DEVICE_IDENTIFIER) {
                 try {
                     brickletAmbientLight = new BrickletAmbientLight(uid, ipcon);
-                    brickletAmbientLight.setIlluminanceCallbackPeriod(1000);
+                    brickletAmbientLight.setIlluminanceCallbackPeriod(60000);
                     brickletAmbientLight.addIlluminanceListener(this);
                     System.out.println("Ambient Light initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -111,7 +119,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
                     brickletAmbientLightV2 = new BrickletAmbientLightV2(uid, ipcon);
                     brickletAmbientLightV2.setConfiguration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_64000LUX,
                             BrickletAmbientLightV2.INTEGRATION_TIME_200MS);
-                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(1000);
+                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(60000);
                     brickletAmbientLightV2.addIlluminanceListener(this);
                     System.out.println("Ambient Light 2.0 initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -121,7 +129,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletHumidity.DEVICE_IDENTIFIER) {
                 try {
                     brickletHumidity = new BrickletHumidity(uid, ipcon);
-                    brickletHumidity.setHumidityCallbackPeriod(1000);
+                    brickletHumidity.setHumidityCallbackPeriod(60000);
                     brickletHumidity.addHumidityListener(this);
                     System.out.println("Humidity initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -131,7 +139,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletBarometer.DEVICE_IDENTIFIER) {
                 try {
                     brickletBarometer = new BrickletBarometer(uid, ipcon);
-                    brickletBarometer.setAirPressureCallbackPeriod(1000);
+                    brickletBarometer.setAirPressureCallbackPeriod(60000);
                     brickletBarometer.addAirPressureListener(this);
                     System.out.println("Barometer initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -164,6 +172,13 @@ class WeatherListener implements IPConnection.EnumerateListener,
     @Override
     public void buttonPressed(short i) {
         System.out.println("Button" + i);
+        switch (i){
+            case 0: break;
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            default:
+        }
 
     }
 }
