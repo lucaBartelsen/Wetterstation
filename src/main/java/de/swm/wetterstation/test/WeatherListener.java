@@ -25,7 +25,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
     public WeatherListener(IPConnection ipcon) {
         this.ipcon = ipcon;
         try {
-            jdbc = new JDBC();
+            jdbc = new JDBC(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletAmbientLight.DEVICE_IDENTIFIER) {
                 try {
                     brickletAmbientLight = new BrickletAmbientLight(uid, ipcon);
-                    brickletAmbientLight.setIlluminanceCallbackPeriod(60000);
+                    brickletAmbientLight.setIlluminanceCallbackPeriod(30000);
                     brickletAmbientLight.addIlluminanceListener(this);
                     System.out.println("Ambient Light initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -119,7 +119,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
                     brickletAmbientLightV2 = new BrickletAmbientLightV2(uid, ipcon);
                     brickletAmbientLightV2.setConfiguration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_64000LUX,
                             BrickletAmbientLightV2.INTEGRATION_TIME_200MS);
-                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(60000);
+                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(30000);
                     brickletAmbientLightV2.addIlluminanceListener(this);
                     System.out.println("Ambient Light 2.0 initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -129,7 +129,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletHumidity.DEVICE_IDENTIFIER) {
                 try {
                     brickletHumidity = new BrickletHumidity(uid, ipcon);
-                    brickletHumidity.setHumidityCallbackPeriod(60000);
+                    brickletHumidity.setHumidityCallbackPeriod(30000);
                     brickletHumidity.addHumidityListener(this);
                     System.out.println("Humidity initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -139,7 +139,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletBarometer.DEVICE_IDENTIFIER) {
                 try {
                     brickletBarometer = new BrickletBarometer(uid, ipcon);
-                    brickletBarometer.setAirPressureCallbackPeriod(60000);
+                    brickletBarometer.setAirPressureCallbackPeriod(30000);
                     brickletBarometer.addAirPressureListener(this);
                     System.out.println("Barometer initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -180,5 +180,48 @@ class WeatherListener implements IPConnection.EnumerateListener,
             default:
         }
 
+    }
+
+    public void display(String typ, double wert){
+        switch (typ){
+            case "temperatur": {
+                String text = String.format("Temperatur %6.2f %cC", wert, 0xDF);
+                System.out.println(text);
+                try {
+                    brickletLCD.writeLine((short)1, (short)0, text);
+                } catch(com.tinkerforge.TinkerforgeException e) {
+                }
+                break;
+            }
+            case "helligkeit": {
+                String text = String.format("Helligkeit %6.2f Lx", wert);
+                System.out.println(text);
+                try {
+                    brickletLCD.writeLine((short)0, (short)0, text);
+                } catch(com.tinkerforge.TinkerforgeException e) {
+                }
+                break;
+            }
+            case "luftdruck": {
+                String text = String.format("Luftdruck %7.2f mb", wert);
+                System.out.println(text);
+                try {
+                    brickletLCD.writeLine((short)2, (short)0, text);
+                } catch(com.tinkerforge.TinkerforgeException e) {
+                }
+                break;
+            }
+            case "luftfeuchtigkeit": {
+                String text = String.format("Feuchtigkeit %5.2f %%", wert);
+                System.out.println(text);
+                try {
+                    brickletLCD.writeLine((short)3, (short)0, text);
+                } catch(com.tinkerforge.TinkerforgeException e) {
+                }
+
+                break;
+            }
+            default:
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,8 +13,9 @@ import java.util.concurrent.TimeUnit;
 public class JDBC {
 
     private Connection connection;
+    private WeatherListener weatherListener;
 
-    public JDBC() throws SQLException {
+    public JDBC(WeatherListener weatherListener) throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setDatabaseName("Wetterstation");
         dataSource.setServerName("localhost");
@@ -21,6 +23,7 @@ public class JDBC {
         dataSource.setUser("postgres");
         dataSource.setPassword("Pa$$w0rd");
         connection = dataSource.getConnection();
+        this.weatherListener = weatherListener;
 
     }
 
@@ -39,24 +42,24 @@ public class JDBC {
                 insert.executeUpdate();
             }
         }while (exec == 0);
+        weatherListener.display(type,value);
     }
 
-    public void getTimestamp() throws SQLException {
-        String readQuery = "select * from wetter";
+    public double getHelligkeit() {
+        String readQuery = "select helligkeit from \"Wetter\" where zeitstempel = ?";
+        double helligkeit = 0.0;
+        try {
         PreparedStatement read = connection.prepareStatement(readQuery);
-        ResultSet result = read.executeQuery();
-        while (result.next()){
-            Timestamp time = result.getTimestamp(2);
-        }
-    }
 
-    public void getHelligkeit() throws SQLException {
-        String readQuery = "select * from Helligkeit";
-        PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
         ResultSet result = read.executeQuery();
         while (result.next()){
-            double helligkeit = result.getDouble(3);
+            helligkeit = result.getDouble(1);
         }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return helligkeit;
     }
 
     public void getLuftdruck() throws SQLException {
@@ -77,12 +80,20 @@ public class JDBC {
         }
     }
 
-    public void getTemperatur() throws SQLException {
-        String readQuery = "select * from Temperatur";
-        PreparedStatement read = connection.prepareStatement(readQuery);
-        ResultSet result = read.executeQuery();
-        while (result.next()){
-            double temperatur = result.getDouble(3);
+    public double getTemperatur() {
+        String readQuery = "select temperatur from \"Wetter\" where zeitstempel = ?";
+        double helligkeit = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            ResultSet result = read.executeQuery();
+            while (result.next()){
+                helligkeit = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return helligkeit;
     }
 }
