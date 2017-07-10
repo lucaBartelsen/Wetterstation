@@ -79,22 +79,38 @@ public class JDBC {
         return helligkeit;
     }
 
-    public void getLuftdruck() throws SQLException {
-        String readQuery = "select * from Luftdruck";
-        PreparedStatement read = connection.prepareStatement(readQuery);
-        ResultSet result = read.executeQuery();
-        while (result.next()){
-            double luftdruck = result.getDouble(3);
+    public double getLuftdruck() {
+        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel = ?";
+        double helligkeit = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            ResultSet result = read.executeQuery();
+            while (result.next()){
+                helligkeit = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return helligkeit;
     }
 
-    public void getLuftfeuchtigkeit() throws SQLException {
-        String readQuery = "select * from Luftfeuchtigkeit";
-        PreparedStatement read = connection.prepareStatement(readQuery);
-        ResultSet result = read.executeQuery();
-        while (result.next()){
-            double luftfeuchtigkeit = result.getDouble(3);
+    public double getLuftfeuchtigkeit() {
+        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel = ?";
+        double helligkeit = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            ResultSet result = read.executeQuery();
+            while (result.next()){
+                helligkeit = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return helligkeit;
     }
 
     public double getTemperatur() {
@@ -114,25 +130,52 @@ public class JDBC {
         return helligkeit;
     }
 
-    public ArrayList[] getTemperaturArray() {
-        String readQuery = "select zeitstempel, temperatur from \"Wetter\" where zeitstempel >= ?";
+    public ArrayList[] getWetterdatenArray() {
+        String readQuery = "select zeitstempel, temperatur, luftdruck, luftfeuchtigkeit, helligkeit from \"Wetter\" where zeitstempel >= ?";
         ArrayList<Double> temperatur = new ArrayList<>();
+        ArrayList<Double> luftdruck = new ArrayList<>();
+        ArrayList<Double> luftfeuchtigkeit = new ArrayList<>();
+        ArrayList<Double> helligkeit = new ArrayList<>();
         ArrayList<Long> zeitstempel = new ArrayList<>();
-        ArrayList[] uebergabe = new ArrayList[2];
+        ArrayList[] uebergabe = new ArrayList[5];
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
             ZonedDateTime dateTime = ZonedDateTime.now();
             ZonedDateTime start =  dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
             read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
             ResultSet result = read.executeQuery();
-            double save = 0;
+            double savet = 0;
+            double saveld = 0;
+            double savelf = 0;
+            double saveh = 0;
             while (result.next()){
 
                 if(result.getDouble(2) == 0){
-                    temperatur.add(save);
+                    temperatur.add(savet);
                 }else{
                     temperatur.add(result.getDouble(2));
-                    save = result.getDouble(2);
+                    savet = result.getDouble(2);
+                }
+
+                if(result.getDouble(3) == 0){
+                    luftdruck.add(saveld);
+                }else{
+                    luftdruck.add(result.getDouble(3));
+                    saveld = result.getDouble(3);
+                }
+
+                if(result.getDouble(4) == 0){
+                    luftfeuchtigkeit.add(savelf);
+                }else{
+                    luftfeuchtigkeit.add(result.getDouble(4));
+                    savelf = result.getDouble(4);
+                }
+
+                if(result.getDouble(5) == 0){
+                    helligkeit.add(saveh);
+                }else{
+                    helligkeit.add(result.getDouble(5));
+                    saveh = result.getDouble(5);
                 }
                 zeitstempel.add(result.getLong(1));
             }
@@ -141,6 +184,9 @@ public class JDBC {
         }
         uebergabe[0] = zeitstempel;
         uebergabe[1] = temperatur;
+        uebergabe[2] = luftdruck;
+        uebergabe[3] = luftfeuchtigkeit;
+        uebergabe[4] = helligkeit;
         return uebergabe;
     }
 

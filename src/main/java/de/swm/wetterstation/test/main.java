@@ -56,12 +56,6 @@ public class main extends Application{
         }
 
         System.out.println("Test");
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(20), event -> {
-//            fxController.updateChart();
-        }));
-        timeline.setCycleCount(30);
-        timeline.play();
         launch(args);
 
 
