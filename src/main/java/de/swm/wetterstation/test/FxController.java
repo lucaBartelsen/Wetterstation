@@ -1,5 +1,6 @@
 package de.swm.wetterstation.test;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -95,6 +96,7 @@ public class FxController {
             updateLuftDChart();
             System.out.println("Update Charts");
         }));
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
