@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.test.FxController">
   <tabs>
     <Tab text="Übersicht">
       <content>
@@ -45,14 +45,14 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox layoutX="47.0" layoutY="261.0" prefHeight="38.0" prefWidth="289.0">
+                  <HBox layoutX="47.0" layoutY="261.0" prefHeight="45.0" prefWidth="302.0">
                      <children>
                         <Label text="Luftfeuchtigkeit:">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="übersicht_luftfeuchtigkeit" text="50">
+                        <Label fx:id="übersicht_luftfeuchtigkeit" text="50,5">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -114,12 +114,22 @@
                         <Font name="Aparajita" size="31.0" />
                      </font>
                   </Button>
+                  <HBox layoutX="47.0" layoutY="368.0" prefHeight="29.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Gemessen um" />
+                        <Label fx:id="gemessenZeit" text="14:07">
+                           <HBox.margin>
+                              <Insets left="4.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children></AnchorPane>
       </content>
     </Tab>
     <Tab text="Temperatur">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane fx:id="temperaturPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #848484;">
                <top>
                   <HBox prefHeight="65.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                      <children>
@@ -131,7 +141,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="temperatur" alignment="BOTTOM_LEFT" text="30">
+                        <Label fx:id="temperaturLabel" alignment="BOTTOM_LEFT" text="30">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -155,7 +165,7 @@
     </Tab>
       <Tab text="Luftdruck">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane fx:id="luftdruckPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #848484;">
                <top>
                   <HBox prefHeight="65.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                      <children>
@@ -167,7 +177,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="luftdruck" alignment="BOTTOM_LEFT" text="940">
+                        <Label fx:id="luftdruckLabel" alignment="BOTTOM_LEFT" text="940">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -191,7 +201,7 @@
       </Tab>
       <Tab text="Luftfeuchtigkeit">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane fx:id="luftfeuchtigkeitPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #848484;">
                <top>
                   <HBox prefHeight="65.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                      <children>
@@ -203,7 +213,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="luftfeuchtigkeit" alignment="BOTTOM_LEFT" text="50">
+                        <Label fx:id="luftfeuchtigkeitLabel" alignment="BOTTOM_LEFT" text="50">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -227,7 +237,7 @@
       </Tab>
       <Tab text="Helligkeit">
          <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane fx:id="helligkeitPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #848484;">
                <top>
                   <HBox prefHeight="65.0" prefWidth="700.0" BorderPane.alignment="CENTER">
                      <children>
@@ -239,7 +249,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="helligkeit" alignment="BOTTOM_LEFT" text="2000">
+                        <Label fx:id="helligkeitLabel" alignment="BOTTOM_LEFT" text="2000">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -281,7 +291,7 @@
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <RadioButton layoutX="193.0" layoutY="163.0" mnemonicParsing="false" selected="true" text="Celsius">
+                  <RadioButton fx:id="celsius" layoutX="193.0" layoutY="163.0" mnemonicParsing="false" selected="true" text="Celsius">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -289,7 +299,7 @@
                         <ToggleGroup fx:id="knopf" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton layoutX="193.0" layoutY="211.0" mnemonicParsing="false" text="Fahrenheit" toggleGroup="$knopf">
+                  <RadioButton fx:id="fahrenheit" layoutX="193.0" layoutY="211.0" mnemonicParsing="false" text="Fahrenheit" toggleGroup="$knopf">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -314,12 +324,12 @@
                         <Font name="Vodafone ExB" size="40.0" />
                      </font>
                   </Label>
-                  <TextField alignment="TOP_RIGHT" layoutX="366.0" layoutY="316.0" prefHeight="25.0" prefWidth="63.0" text="30">
+                  <TextField fx:id="schwellwertKalt" alignment="TOP_RIGHT" layoutX="366.0" layoutY="316.0" prefHeight="25.0" prefWidth="63.0" text="-10,0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="TOP_RIGHT" layoutX="366.0" layoutY="370.0" prefHeight="25.0" prefWidth="63.0" text="0">
+                  <TextField fx:id="schwellwertWarm" alignment="TOP_RIGHT" layoutX="366.0" layoutY="370.0" prefHeight="25.0" prefWidth="63.0" text="40,0">
                      <font>
                         <Font size="15.0" />
                      </font>

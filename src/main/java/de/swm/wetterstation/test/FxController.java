@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
@@ -15,15 +16,57 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static java.lang.String.format;
+
 /**
  * Created by luca on 07.07.2017.
  */
 public class FxController {
 
     @FXML
+    private Label einheitschwellwertkalt;
+    @FXML
+    private Label einheitschwellwertwarm;
+    @FXML
+    private TextField schwellwertKalt;
+    @FXML
+    private TextField schwellwertWarm;
+    @FXML
+    private ToggleGroup knopf;
+    @FXML
+    private RadioButton celsius;
+    @FXML
+    private RadioButton fahrenheit;
+    @FXML
+    private Label einheit;
+    @FXML
+    private Label übersicht_temperatur;
+    @FXML
+    private Label übersicht_einheit;
+    @FXML
+    private Label gemessenZeit;
+    @FXML
+    private Label übersicht_helligkeit;
+    @FXML
+    private Label übersicht_luftfeuchtigkeit;
+    @FXML
+    private Label übersicht_luftdruck;
+    @FXML
+    private Label helligkeitLabel;
+    @FXML
+    private Label luftdruckLabel;
+    @FXML
+    private Label luftfeuchtigkeitLabel;
+    @FXML
+    private Label temperaturLabel;
+    @FXML
+    private Label aktualisierungsinetrvall;
+    @FXML
+    private Slider slider;
+    @FXML
     private BorderPane temperaturPane;
     @FXML
-    private BorderPane luftrduckPane;
+    private BorderPane luftdruckPane;
     @FXML
     private BorderPane luftfeuchtigkeitPane;
     @FXML
@@ -45,6 +88,7 @@ public class FxController {
     private NumberAxis helligkeitY;
     private LineChart<Number, Number> helligkeitChart;
     private XYChart.Series<Number, Number> helligkeitSeries;
+    private Timeline timeline = null;
 
     @FXML
     private void initialize() {
@@ -84,21 +128,86 @@ public class FxController {
         luftfeuchtigkeitChart(luftfeuchtigkeit,zeit);
         helligkeitChart(helligkeit,zeit);
         temperaturPane.setCenter(temperaturChart);
-        luftrduckPane.setCenter(luftdruckChart);
+        luftdruckPane.setCenter(luftdruckChart);
         luftfeuchtigkeitPane.setCenter(luftfeuchtigkeitChart);
         helligkeitPane.setCenter(helligkeitChart);
-
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(5), event -> {
+        SimpleDateFormat zeitFormat = new SimpleDateFormat("HH:mm");
+        gemessenZeit.setText(zeitFormat.format(new Date()));
+        fahrenheit.setUserData("fahrenheit");
+        celsius.setUserData("celsius");
+        if(celsius.isSelected()){
+            einheit.setText("°C");
+            übersicht_einheit.setText("°C");
+            einheitschwellwertkalt.setText("°C");
+            einheitschwellwertwarm.setText("°C");
+        }else{
+            if(fahrenheit.isSelected()){
+                einheit.setText("°F");
+                übersicht_einheit.setText("°F");
+                einheitschwellwertkalt.setText("°F");
+                einheitschwellwertwarm.setText("°F");
+            }
+        }
+        knopf.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            switch(newValue.getUserData().toString()){
+                case "celsius": {
+                    einheit.setText("°C");
+                    übersicht_einheit.setText("°C");
+                    einheitschwellwertkalt.setText("°C");
+                    einheitschwellwertwarm.setText("°C");
+                    double temp = (Double.parseDouble(übersicht_temperatur.getText().replace(",","."))-32)*5/9;
+                    übersicht_temperatur.setText(format("%.1f",temp));
+                    temperaturLabel.setText(format("%.1f",temp));
+                    schwellwertKalt.setText(format("%.1f",(Double.parseDouble(schwellwertKalt.getText().replace(",","."))-32)*5/9));
+                    schwellwertWarm.setText(format("%.1f",(Double.parseDouble(schwellwertWarm.getText().replace(",","."))-32)*5/9));
+                    break;
+                }
+                case "fahrenheit": {
+                    einheit.setText("°F");
+                    übersicht_einheit.setText("°F");
+                    einheitschwellwertkalt.setText("°F");
+                    einheitschwellwertwarm.setText("°F");
+                    double temp = Double.parseDouble(übersicht_temperatur.getText().replace(",","."))*1.8+32;
+                    übersicht_temperatur.setText(format("%.1f",temp));
+                    temperaturLabel.setText(format("%.1f",temp));
+                    schwellwertKalt.setText(format("%.1f",Double.parseDouble(schwellwertKalt.getText().replace(",","."))*1.8+32));
+                    schwellwertWarm.setText(format("%.1f",Double.parseDouble(schwellwertWarm.getText().replace(",","."))*1.8+32));
+                    break;
+                }
+                default:
+            }
+        });
+        timeline = new Timeline(new KeyFrame(Duration.minutes(5), event -> {
             updateTempChart();
             updateHellChart();
             updateLuftFChart();
             updateLuftDChart();
-            System.out.println("Update Charts");
+            gemessenZeit.setText(zeitFormat.format(new Date()));
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        slider.valueChangingProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue == false){
+                timeline.stop();
+                timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
+                    updateTempChart();
+                    updateHellChart();
+                    updateLuftFChart();
+                    updateLuftDChart();
+                    gemessenZeit.setText(zeitFormat.format(new Date()));
+                }));
+                timeline.setCycleCount(Animation.INDEFINITE);
+                timeline.play();
+            }
+        });
+        aktualisierungsinetrvall.setText(format("%2.0f",slider.getValue()));
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            aktualisierungsinetrvall.setText(format("%2.0f",newValue));
+        });
+
     }
+
+
 
     public void updateTempChart() {
         SimpleDateFormat forHour = new SimpleDateFormat("HH");
@@ -107,7 +216,14 @@ public class FxController {
         int hours = Integer.parseInt(forHour.format(date));
         int minutes = Integer.parseInt(forMin.format(date));
         double hmin = hours + (minutes/60.0);
-        temperaturSeries.getData().add((new XYChart.Data<>(hmin, jdbc.getTemperatur())));
+        double temp = jdbc.getTemperatur();
+        temperaturSeries.getData().add((new XYChart.Data<>(hmin, temp)));
+        if(fahrenheit.isSelected()){
+            temp = temp * 1.8 + 32;
+        }
+        temperaturLabel.setText(format("%.1f",temp));
+        übersicht_temperatur.setText(format("%.1f",temp));
+
     }
 
     public void updateLuftDChart() {
@@ -117,7 +233,10 @@ public class FxController {
         int hours = Integer.parseInt(forHour.format(date));
         int minutes = Integer.parseInt(forMin.format(date));
         double hmin = hours + (minutes/60.0);
-        luftdruckSeries.getData().add((new XYChart.Data<>(hmin, jdbc.getLuftdruck())));
+        double temp = jdbc.getLuftdruck();
+        luftdruckSeries.getData().add((new XYChart.Data<>(hmin, temp)));
+        luftdruckLabel.setText(format("%.0f",temp));
+        übersicht_luftdruck.setText(format("%.0f",temp));
     }
 
     public void updateLuftFChart() {
@@ -127,7 +246,10 @@ public class FxController {
         int hours = Integer.parseInt(forHour.format(date));
         int minutes = Integer.parseInt(forMin.format(date));
         double hmin = hours + (minutes/60.0);
-        luftfeuchtigkeitSeries.getData().add((new XYChart.Data<>(hmin, jdbc.getLuftfeuchtigkeit())));
+        double temp = jdbc.getLuftfeuchtigkeit();
+        luftfeuchtigkeitSeries.getData().add((new XYChart.Data<>(hmin, temp)));
+        luftfeuchtigkeitLabel.setText(format("%.1f",temp));
+        übersicht_luftfeuchtigkeit.setText(format("%.1f",temp));
     }
 
     public void updateHellChart() {
@@ -137,14 +259,17 @@ public class FxController {
         int hours = Integer.parseInt(forHour.format(date));
         int minutes = Integer.parseInt(forMin.format(date));
         double hmin = hours + (minutes/60.0);
-        helligkeitSeries.getData().add((new XYChart.Data<>(hmin, jdbc.getHelligkeit())));
+        double temp = jdbc.getHelligkeit();
+        helligkeitSeries.getData().add((new XYChart.Data<>(hmin, temp)));
+        helligkeitLabel.setText(format("%.1f",temp));
+        übersicht_helligkeit.setText(format("%.1f",temp));
     }
 
     public void temperaturChart(ArrayList<Double> werte, ArrayList<Long> zeit){
         temperaturX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
         temperaturY = new NumberAxis(jdbc.getLowTemperatur24()-5, jdbc.getHighTemperatur24()+5, 5);  // (yMin, yMax, ticks)
         temperaturX.setLabel("Uhrzeit");
-        temperaturY.setLabel("Temperatur");
+        temperaturY.setLabel("Temperatur in °C");
         temperaturChart = new LineChart<>(temperaturX, temperaturY);
         temperaturSeries = new XYChart.Series<>();
         temperaturSeries.setName("Temperatur");
@@ -160,15 +285,21 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(date));
             double hmin = hours + (minutes/60.0);
             temperaturSeries.getData().add((new XYChart.Data<>(hmin, d)));
+            double temp = d;
+            if(fahrenheit.isSelected()){
+                temp = temp * 1.8 + 32;
+            }
+            temperaturLabel.setText(format("%.1f",temp));
+            übersicht_temperatur.setText(format("%.1f",temp));
             i++;
         }
     }
 
     public void luftdruckChart(ArrayList<Double> werte, ArrayList<Long> zeit){
         luftdruckX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
-        luftdruckY = new NumberAxis(500, 2000, 50);  // (yMin, yMax, ticks)
+        luftdruckY = new NumberAxis(900, 1050, 10);  // (yMin, yMax, ticks)
         luftdruckX.setLabel("Uhrzeit");
-        luftdruckY.setLabel("Luftdruck");
+        luftdruckY.setLabel("Luftdruck in mBar");
         luftdruckChart = new LineChart<>(luftdruckX, luftdruckY);
         luftdruckSeries = new XYChart.Series<>();
         luftdruckSeries.setName("Luftdruck");
@@ -185,6 +316,8 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(hell));
             double hmin = hours + (minutes/60.0);
             luftdruckSeries.getData().add((new XYChart.Data<>(hmin, d)));
+            luftdruckLabel.setText(format("%.1f",d));
+            übersicht_luftdruck.setText(format("%.1f",d));
             i++;
         }
     }
@@ -193,7 +326,7 @@ public class FxController {
         luftfeuchtigkeitX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
         luftfeuchtigkeitY = new NumberAxis(0, 100, 10);  // (yMin, yMax, ticks)
         luftfeuchtigkeitX.setLabel("Uhrzeit");
-        luftfeuchtigkeitY.setLabel("Luftfeuchtigkeit");
+        luftfeuchtigkeitY.setLabel("Luftfeuchtigkeit in %");
         luftfeuchtigkeitChart = new LineChart<>(luftfeuchtigkeitX, luftfeuchtigkeitY);
         luftfeuchtigkeitSeries = new XYChart.Series<>();
         luftfeuchtigkeitSeries.setName("Luftfeuchtigkeit");
@@ -210,18 +343,20 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(hell));
             double hmin = hours + (minutes/60.0);
             luftfeuchtigkeitSeries.getData().add((new XYChart.Data<>(hmin, d)));
+            luftfeuchtigkeitLabel.setText(format("%.1f",d));
+            übersicht_luftfeuchtigkeit.setText(format("%.1f",d));
             i++;
         }
     }
 
     public void helligkeitChart(ArrayList<Double> werte, ArrayList<Long> zeit){
         helligkeitX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
-        helligkeitY = new NumberAxis(0, 3000, 50);  // (yMin, yMax, ticks)
+        helligkeitY = new NumberAxis(0, 5000, 150);  // (yMin, yMax, ticks)
         helligkeitX.setLabel("Uhrzeit");
-        helligkeitY.setLabel("Temperatur");
+        helligkeitY.setLabel("Helligkeit in Lx");
         helligkeitChart = new LineChart<>(helligkeitX, helligkeitY);
         helligkeitSeries = new XYChart.Series<>();
-        helligkeitSeries.setName("Temperatur");
+        helligkeitSeries.setName("Helligkeit");
         helligkeitChart.getData().addAll(helligkeitSeries);
         helligkeitChart.setCreateSymbols(false);
         int i = 0;
@@ -235,6 +370,8 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(hell));
             double hmin = hours + (minutes/60.0);
             helligkeitSeries.getData().add((new XYChart.Data<>(hmin, d)));
+            helligkeitLabel.setText(format("%.1f",d));
+            übersicht_helligkeit.setText(format("%.1f",d));
             i++;
         }
     }
