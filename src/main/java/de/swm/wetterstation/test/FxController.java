@@ -11,10 +11,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 
 import static java.lang.String.format;
 
@@ -89,6 +95,8 @@ public class FxController {
     private LineChart<Number, Number> helligkeitChart;
     private XYChart.Series<Number, Number> helligkeitSeries;
     private Timeline timeline = null;
+    private Properties properties = null;
+    private Path path = null;
 
     @FXML
     private void initialize() {
@@ -97,6 +105,27 @@ public class FxController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        path = Paths.get(System.getProperty("user.home"), "config.properties");
+        InputStream is = null;
+        properties = new Properties();
+        try {
+            is = Files.newInputStream(path);
+            properties.load(is);
+        } catch (IOException e) {
+            System.err.println("Datei nicht Gefunden");
+        }
+        slider.setValue(Double.parseDouble(String.valueOf(properties.get("Aktual"))));
+        if (properties.get("Einheit").equals("fahrenheit")) {
+            fahrenheit.setSelected(true);
+            celsius.setSelected(false);
+        }else{
+            if (properties.get("Einheit").equals("celsius")){
+                celsius.setSelected(true);
+                fahrenheit.setSelected(false);
+            }
+        }
+        schwellwertWarm.setText(String.valueOf(properties.get("SchwellWarm")));
+        schwellwertKalt.setText(String.valueOf(properties.get("SchwellKalt")));
         ArrayList<Double> temperatur = null;
         ArrayList<Double> luftdruck = null;
         ArrayList<Double> luftfeuchtigkeit = null;
@@ -373,6 +402,24 @@ public class FxController {
             helligkeitLabel.setText(format("%.1f",d));
             übersicht_helligkeit.setText(format("%.1f",d));
             i++;
+        }
+    }
+
+    public void saveProperties() {
+        properties.setProperty("Aktual", String.valueOf(slider.getValue()));
+        if (celsius.isSelected()){
+            properties.setProperty("Einheit", "celsius");
+        }else{
+            if (fahrenheit.isSelected()){
+                properties.setProperty("Einheit", "fahrenheit");
+            }
+        }
+        properties.setProperty("SchwellKalt", schwellwertKalt.getText());
+        properties.setProperty("SchwellWarm", schwellwertWarm.getText());
+        try {
+            properties.store(Files.newOutputStream(path) , new Date().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

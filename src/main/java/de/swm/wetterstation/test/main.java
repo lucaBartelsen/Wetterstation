@@ -21,6 +21,7 @@ public class main extends Application{
     private static IPConnection ipcon = null;
     private static WeatherListener weatherListener = null;
     private static FxController fxController = null;
+    private FxController controller;
 
     public static void main(String args[]) {
         ipcon = new IPConnection();
@@ -63,11 +64,19 @@ public class main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent parent = FXMLLoader.load(ClassLoader.getSystemClassLoader().getResource("gui.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui.fxml"));
+        Parent parent = loader.load();
+        controller = loader.getController();
 
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        controller.saveProperties();
     }
 }
 
