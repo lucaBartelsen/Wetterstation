@@ -20,6 +20,7 @@ public class main extends Application{
     private static final int PORT = 4223;
     private static IPConnection ipcon = null;
     private static WeatherListener weatherListener = null;
+    private static FxController fxController = null;
 
     public static void main(String args[]) {
         ipcon = new IPConnection();
@@ -55,12 +56,12 @@ public class main extends Application{
         }
 
         System.out.println("Test");
-/*
+
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(20), event -> {
-            weatherListener.display();
+//            fxController.updateChart();
         }));
         timeline.setCycleCount(30);
-        timeline.play();*/
+        timeline.play();
         launch(args);
 
 

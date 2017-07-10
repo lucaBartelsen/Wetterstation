@@ -107,7 +107,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletAmbientLight.DEVICE_IDENTIFIER) {
                 try {
                     brickletAmbientLight = new BrickletAmbientLight(uid, ipcon);
-                    brickletAmbientLight.setIlluminanceCallbackPeriod(30000);
+                    brickletAmbientLight.setIlluminanceCallbackPeriod(60000);
                     brickletAmbientLight.addIlluminanceListener(this);
                     System.out.println("Ambient Light initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -119,7 +119,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
                     brickletAmbientLightV2 = new BrickletAmbientLightV2(uid, ipcon);
                     brickletAmbientLightV2.setConfiguration(BrickletAmbientLightV2.ILLUMINANCE_RANGE_64000LUX,
                             BrickletAmbientLightV2.INTEGRATION_TIME_200MS);
-                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(30000);
+                    brickletAmbientLightV2.setIlluminanceCallbackPeriod(60000);
                     brickletAmbientLightV2.addIlluminanceListener(this);
                     System.out.println("Ambient Light 2.0 initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -129,7 +129,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletHumidity.DEVICE_IDENTIFIER) {
                 try {
                     brickletHumidity = new BrickletHumidity(uid, ipcon);
-                    brickletHumidity.setHumidityCallbackPeriod(30000);
+                    brickletHumidity.setHumidityCallbackPeriod(60000);
                     brickletHumidity.addHumidityListener(this);
                     System.out.println("Humidity initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
@@ -139,7 +139,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
             } else if(deviceIdentifier == BrickletBarometer.DEVICE_IDENTIFIER) {
                 try {
                     brickletBarometer = new BrickletBarometer(uid, ipcon);
-                    brickletBarometer.setAirPressureCallbackPeriod(30000);
+                    brickletBarometer.setAirPressureCallbackPeriod(60000);
                     brickletBarometer.addAirPressureListener(this);
                     System.out.println("Barometer initialized");
                 } catch(com.tinkerforge.TinkerforgeException e) {
