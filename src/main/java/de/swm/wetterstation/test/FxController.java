@@ -111,9 +111,6 @@ public class FxController {
         try {
             is = Files.newInputStream(path);
             properties.load(is);
-        } catch (IOException e) {
-            System.err.println("Datei nicht Gefunden");
-        }
         slider.setValue(Double.parseDouble(String.valueOf(properties.get("Aktual"))));
         if (properties.get("Einheit").equals("fahrenheit")) {
             fahrenheit.setSelected(true);
@@ -126,6 +123,9 @@ public class FxController {
         }
         schwellwertWarm.setText(String.valueOf(properties.get("SchwellWarm")));
         schwellwertKalt.setText(String.valueOf(properties.get("SchwellKalt")));
+        } catch (IOException e) {
+            System.err.println("Datei nicht Gefunden");
+        }
         ArrayList<Double> temperatur = null;
         ArrayList<Double> luftdruck = null;
         ArrayList<Double> luftfeuchtigkeit = null;
