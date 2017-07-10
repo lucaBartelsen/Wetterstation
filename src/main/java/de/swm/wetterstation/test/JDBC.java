@@ -68,7 +68,7 @@ public class JDBC {
         try {
         PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
         ResultSet result = read.executeQuery();
         while (result.next()){
             helligkeit = result.getDouble(1);
@@ -85,7 +85,7 @@ public class JDBC {
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
             ResultSet result = read.executeQuery();
             while (result.next()){
                 helligkeit = result.getDouble(1);
@@ -102,7 +102,7 @@ public class JDBC {
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
             ResultSet result = read.executeQuery();
             while (result.next()){
                 helligkeit = result.getDouble(1);
@@ -119,7 +119,7 @@ public class JDBC {
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1);
+            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
             ResultSet result = read.executeQuery();
             while (result.next()){
                 helligkeit = result.getDouble(1);
