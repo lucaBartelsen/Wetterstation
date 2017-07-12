@@ -190,12 +190,14 @@ public class JDBC {
     }
 
     public double getLowTemperatur24() {
-        String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur DESC";
+        String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur ASC limit 1";
         double temperatur = 0.0;
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()) - 1440);
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
             ResultSet result = read.executeQuery();
             while (result.next()) {
                 temperatur = result.getDouble(1);
@@ -207,12 +209,128 @@ public class JDBC {
     }
 
     public double getHighTemperatur24() {
-        String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur ASC";
+        String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur DESC limit 1";
         double temperatur = 0.0;
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()) - 1440);
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getLowLuftdruck24() {
+        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel > ? AND luftdruck IS NOT NULL ORDER BY luftdruck ASC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getHighLuftdruck24() {
+        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel > ? AND luftdruck IS NOT NULL ORDER BY luftdruck DESC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getLowLuftfeucht24() {
+        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel > ? AND luftfeuchtigkeit IS NOT NULL ORDER BY luftfeuchtigkeit ASC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getHighLuftfeucht24() {
+        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel > ? AND luftfeuchtigkeit IS NOT NULL ORDER BY luftfeuchtigkeit DESC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getLowHelligkeit24() {
+        String readQuery = "select helligkeit from \"Wetter\" where zeitstempel > ? AND helligkeit IS NOT NULL ORDER BY helligkeit ASC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ResultSet result = read.executeQuery();
+            while (result.next()) {
+                temperatur = result.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public double getHighHelligkeit24() {
+        String readQuery = "select helligkeit from \"Wetter\" where zeitstempel > ? AND helligkeit IS NOT NULL ORDER BY helligkeit DESC limit 1";
+        double temperatur = 0.0;
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
             ResultSet result = read.executeQuery();
             while (result.next()) {
                 temperatur = result.getDouble(1);
