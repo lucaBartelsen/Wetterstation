@@ -37,9 +37,22 @@
                 <version>3.0.0</version>
                 <configuration>
                     <descriptorRefs>
-                        <descriptorRef>de.swm.wetterstation.main</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.swm.wetterstation.main</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

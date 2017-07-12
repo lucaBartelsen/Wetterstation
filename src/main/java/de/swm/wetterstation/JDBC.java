@@ -20,7 +20,7 @@ public class JDBC {
     public JDBC(WeatherListener weatherListener) throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setDatabaseName("Wetterstation");
-        dataSource.setServerName("localhost");
+        dataSource.setServerName("192.168.178.138"); // 192.168.178.138
         dataSource.setPortNumber(5432);
         dataSource.setUser("postgres");
         dataSource.setPassword("Pa$$w0rd");
@@ -32,7 +32,7 @@ public class JDBC {
     public JDBC() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setDatabaseName("Wetterstation");
-        dataSource.setServerName("localhost");
+        dataSource.setServerName("192.168.178.138"); //192.168.178.138
         dataSource.setPortNumber(5432);
         dataSource.setUser("postgres");
         dataSource.setPassword("Pa$$w0rd");

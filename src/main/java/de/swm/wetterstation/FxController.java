@@ -214,6 +214,7 @@ public class FxController {
             }
         });
         timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
+            newDay();
             updateTempChart();
             updateHellChart();
             updateLuftFChart();
@@ -233,13 +234,13 @@ public class FxController {
                 alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                 alert.show();
             }
-            newDay();
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             timeline.stop();
             timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
+                newDay();
                 updateTempChart();
                 updateHellChart();
                 updateLuftFChart();
@@ -259,7 +260,6 @@ public class FxController {
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
-                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -271,6 +271,7 @@ public class FxController {
             }
             timeline.stop();
             timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
+                newDay();
                 updateTempChart();
                 updateHellChart();
                 updateLuftFChart();
@@ -290,7 +291,6 @@ public class FxController {
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
-                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -302,6 +302,7 @@ public class FxController {
             }
             timeline.stop();
             timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
+                newDay();
                 updateTempChart();
                 updateHellChart();
                 updateLuftFChart();
@@ -321,7 +322,6 @@ public class FxController {
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
-                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -604,6 +604,7 @@ public class FxController {
             helligkeitSeries.getData().clear();
             luftdruckSeries.getData().clear();
             luftfeuchtigkeitSeries.getData().clear();
+            today = timestampDay;
         }
     }
 }
