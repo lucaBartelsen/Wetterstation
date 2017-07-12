@@ -1,6 +1,5 @@
-package de.swm.wetterstation;
+package de.swm.wetterstation.client;
 
-import javafx.concurrent.Task;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
@@ -15,19 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class JDBC {
 
     private Connection connection;
-    private WeatherListener weatherListener;
-
-    public JDBC(WeatherListener weatherListener) throws SQLException {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setDatabaseName("Wetterstation");
-        dataSource.setServerName("192.168.178.138"); // 192.168.178.138
-        dataSource.setPortNumber(5432);
-        dataSource.setUser("postgres");
-        dataSource.setPassword("Pa$$w0rd");
-        connection = dataSource.getConnection();
-        this.weatherListener = weatherListener;
-
-    }
 
     public JDBC() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
@@ -37,7 +23,6 @@ public class JDBC {
         dataSource.setUser("postgres");
         dataSource.setPassword("Pa$$w0rd");
         connection = dataSource.getConnection();
-        this.weatherListener = weatherListener;
 
     }
 
@@ -56,7 +41,6 @@ public class JDBC {
                 insert.executeUpdate();
             }
         } while (exec == 0);
-        weatherListener.display(type, value);
     }
 
     public double getHelligkeit() {

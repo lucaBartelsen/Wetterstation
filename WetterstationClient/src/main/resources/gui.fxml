@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.FxController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.client.FxController">
   <tabs>
     <Tab text="Übersicht">
       <content>
@@ -27,7 +27,7 @@
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="übersicht_luftdruck" text="950">
+                        <Label fx:id="übersicht_luftdruck" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -52,7 +52,7 @@
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="übersicht_luftfeuchtigkeit" text="50,5">
+                        <Label fx:id="übersicht_luftfeuchtigkeit" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -77,7 +77,7 @@
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="übersicht_helligkeit" text="2000">
+                        <Label fx:id="übersicht_helligkeit" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -97,7 +97,7 @@
                   </HBox>
                   <HBox layoutX="47.0" layoutY="39.0" prefHeight="146.0" prefWidth="316.0">
                      <children>
-                        <Label fx:id="übersicht_temperatur" text="22" textFill="#f2f2f5">
+                        <Label fx:id="übersicht_temperatur" text="0" textFill="#f2f2f5">
                            <font>
                               <Font name="Tw Cen MT Condensed" size="130.0" />
                            </font>
@@ -117,7 +117,7 @@
                   <HBox layoutX="47.0" layoutY="368.0" prefHeight="29.0" prefWidth="200.0">
                      <children>
                         <Label text="Gemessen um" />
-                        <Label fx:id="gemessenZeit" text="14:07">
+                        <Label fx:id="gemessenZeit" text="es LÄD!">
                            <HBox.margin>
                               <Insets left="4.0" />
                            </HBox.margin>
@@ -141,7 +141,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="temperaturLabel" alignment="BOTTOM_LEFT" text="30">
+                        <Label fx:id="temperaturLabel" alignment="BOTTOM_LEFT" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -177,7 +177,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="luftdruckLabel" alignment="BOTTOM_LEFT" text="940">
+                        <Label fx:id="luftdruckLabel" alignment="BOTTOM_LEFT" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -213,7 +213,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="luftfeuchtigkeitLabel" alignment="BOTTOM_LEFT" text="50">
+                        <Label fx:id="luftfeuchtigkeitLabel" alignment="BOTTOM_LEFT" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -249,7 +249,7 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Label fx:id="helligkeitLabel" alignment="BOTTOM_LEFT" text="2000">
+                        <Label fx:id="helligkeitLabel" alignment="BOTTOM_LEFT" text="0">
                            <font>
                               <Font name="Vodafone ExB" size="30.0" />
                            </font>
@@ -333,7 +333,7 @@
                         <Font name="Vodafone ExB" size="26.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="slider" editable="true" layoutX="264.0" layoutY="46.0" prefHeight="25.0" prefWidth="106.0" />
+                  <Spinner fx:id="slider" layoutX="264.0" layoutY="46.0" prefHeight="25.0" prefWidth="106.0" />
                   <RadioButton fx:id="fahrenheit" layoutX="402.0" layoutY="140.0" mnemonicParsing="false" text="Fahrenheit" textFill="#f4f4f4" toggleGroup="$knopf">
                      <font>
                         <Font name="Vodafone ExB" size="25.0" />

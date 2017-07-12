@@ -1,4 +1,4 @@
-package de.swm.wetterstation;
+package de.swm.wetterstation.server;
 
 import com.tinkerforge.*;
 
@@ -25,7 +25,7 @@ class WeatherListener implements IPConnection.EnumerateListener,
     public WeatherListener(IPConnection ipcon) {
         this.ipcon = ipcon;
         try {
-            jdbc = new JDBC(this);
+            jdbc = new JDBC();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,6 +46,8 @@ class WeatherListener implements IPConnection.EnumerateListener,
         if(brickletLCD != null) {
             try {
             jdbc.updateQuery(illuminance/100.0, "helligkeit");
+
+                display("helligkeit", illuminance/100.0);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -57,6 +59,8 @@ class WeatherListener implements IPConnection.EnumerateListener,
         if(brickletLCD != null) {
             try {
             jdbc.updateQuery(humidity/10.0,"luftfeuchtigkeit");
+
+                display("luftfeuchtigkeit", humidity/10.0);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -67,6 +71,8 @@ class WeatherListener implements IPConnection.EnumerateListener,
         if(brickletLCD != null) {
             try {
             jdbc.updateQuery(airPressure/1000.0, "luftdruck");
+
+                display("luftdruck", airPressure/1000.0);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -82,6 +88,8 @@ class WeatherListener implements IPConnection.EnumerateListener,
             // 0xDF == ° on LCD 20x4 charset
             try {
             jdbc.updateQuery(temperature/100.0,"temperatur");
+
+                display("temperatur", temperature/100.0);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
