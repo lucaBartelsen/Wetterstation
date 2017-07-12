@@ -131,6 +131,7 @@ public class FxController {
             schwellwertWarm.setText(String.valueOf(properties.get("SchwellWarm")));
             schwellwertKalt.setText(String.valueOf(properties.get("SchwellKalt")));
         } catch (IOException e) {
+            slider.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 5));
             System.err.println("Datei nicht Gefunden");
         }
         ArrayList<Double> temperatur = null;
