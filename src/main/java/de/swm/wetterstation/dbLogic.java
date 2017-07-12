@@ -1,4 +1,4 @@
-package de.swm.wetterstation.test;
+package de.swm.wetterstation;
 
 import java.sql.SQLException;
 

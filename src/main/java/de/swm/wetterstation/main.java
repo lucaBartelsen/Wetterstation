@@ -1,16 +1,11 @@
-package de.swm.wetterstation.test;
+package de.swm.wetterstation;
 
 import com.tinkerforge.IPConnection;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.time.ZonedDateTime;
 
 /**
  * Created by luca on 05.07.2017.
@@ -20,7 +15,6 @@ public class main extends Application{
     private static final int PORT = 4223;
     private static IPConnection ipcon = null;
     private static WeatherListener weatherListener = null;
-    private static FxController fxController = null;
     private FxController controller;
 
     public static void main(String args[]) {

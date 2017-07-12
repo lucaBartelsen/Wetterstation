@@ -1,15 +1,11 @@
-package de.swm.wetterstation.test;
+package de.swm.wetterstation;
 
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,7 +60,8 @@ public class JDBC {
 
     public double getHelligkeit() {
         String readQuery = "select helligkeit from \"Wetter\" where zeitstempel = ?";
-        double helligkeit = 0.0;
+        double helligkeit = -1;
+        while(true){
         try {
         PreparedStatement read = connection.prepareStatement(readQuery);
 
@@ -76,12 +73,22 @@ public class JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (helligkeit != -1){
+            break;
+        }
+            try {
+                wait(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return helligkeit;
     }
 
     public double getLuftdruck() {
         String readQuery = "select luftdruck from \"Wetter\" where zeitstempel = ?";
         double helligkeit = 0.0;
+        while(true){
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
@@ -93,12 +100,22 @@ public class JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (helligkeit != 0.0){
+            break;
+        }
+        try {
+            wait(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
         return helligkeit;
     }
 
     public double getLuftfeuchtigkeit() {
         String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel = ?";
         double helligkeit = 0.0;
+        while(true){
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
@@ -110,12 +127,22 @@ public class JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (helligkeit != 0.0){
+            break;
+        }
+        try {
+            wait(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
         return helligkeit;
     }
 
     public double getTemperatur() {
         String readQuery = "select temperatur from \"Wetter\" where zeitstempel = ?";
         double helligkeit = 0.0;
+        while(true){
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
@@ -126,6 +153,15 @@ public class JDBC {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (helligkeit != 0.0){
+        break;
+        }
+        try {
+        wait(100);
+        } catch (InterruptedException e) {
+        e.printStackTrace();
+        }
         }
         return helligkeit;
     }

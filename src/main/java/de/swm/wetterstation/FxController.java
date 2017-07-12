@@ -1,8 +1,10 @@
-package de.swm.wetterstation.test;
+package de.swm.wetterstation;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -206,7 +208,7 @@ public class FxController {
                 default:
             }
         });
-        timeline = new Timeline(new KeyFrame(Duration.minutes(5), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.minutes(slider.getValue()), event -> {
             updateTempChart();
             updateHellChart();
             updateLuftFChart();
@@ -234,6 +236,17 @@ public class FxController {
             aktualisierungsinetrvall.setText(format("%2.0f",newValue));
         });
 
+        schwellwertKalt.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\,]\\d{0,4})?")) {
+                schwellwertKalt.setText(oldValue);
+            }
+        });
+
+        schwellwertWarm.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\,]\\d{0,4})?")) {
+                schwellwertWarm.setText(oldValue);
+            }
+        });
     }
 
 
@@ -338,7 +351,6 @@ public class FxController {
         for (double d:werte) {
             SimpleDateFormat forHour = new SimpleDateFormat("HH");
             SimpleDateFormat forMin = new SimpleDateFormat("mm");
-            System.out.println(zeit.get(i));
             long time = zeit.get(i)*60000;
             Date hell = new Date(time);
             int hours = Integer.parseInt(forHour.format(hell));
@@ -365,7 +377,6 @@ public class FxController {
         for (double d:werte) {
             SimpleDateFormat forHour = new SimpleDateFormat("HH");
             SimpleDateFormat forMin = new SimpleDateFormat("mm");
-            System.out.println(zeit.get(i));
             long time = zeit.get(i)*60000;
             Date hell = new Date(time);
             int hours = Integer.parseInt(forHour.format(hell));
@@ -392,7 +403,6 @@ public class FxController {
         for (double d:werte) {
             SimpleDateFormat forHour = new SimpleDateFormat("HH");
             SimpleDateFormat forMin = new SimpleDateFormat("mm");
-            System.out.println(zeit.get(i));
             long time = zeit.get(i)*60000;
             Date hell = new Date(time);
             int hours = Integer.parseInt(forHour.format(hell));
