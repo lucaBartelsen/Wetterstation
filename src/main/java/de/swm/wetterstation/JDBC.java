@@ -60,7 +60,7 @@ public class JDBC {
     }
 
     public double getHelligkeit() {
-        String readQuery = "select helligkeit from \"Wetter\" where zeitstempel = ?";
+        String readQuery = "select helligkeit from \"Wetter\" where zeitstempel = ? AND helligkeit IS NOT NULL order by zeitstempel desc limit 1";
         double helligkeit = 0.0;
             try {
                 PreparedStatement read = connection.prepareStatement(readQuery);
@@ -77,7 +77,7 @@ public class JDBC {
     }
 
     public double getLuftdruck() {
-        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel = ?";
+        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel = ? AND luftdruck IS NOT NULL order by zeitstempel desc limit 1";
         double helligkeit = 0.0;
             try {
                 PreparedStatement read = connection.prepareStatement(readQuery);
@@ -94,7 +94,7 @@ public class JDBC {
     }
 
     public double getLuftfeuchtigkeit() {
-        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel = ?";
+        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel = ? AND luftfeuchtigkeit IS NOT NULL order by zeitstempel desc limit 1";
         double helligkeit = 0.0;
             try {
                 PreparedStatement read = connection.prepareStatement(readQuery);
