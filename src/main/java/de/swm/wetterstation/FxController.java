@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
@@ -101,9 +102,11 @@ public class FxController {
     private Timeline timeline = null;
     private Properties properties = null;
     private Path path = null;
+    private long today = 0;
 
     @FXML
     private void initialize() {
+        today = TimeUnit.MILLISECONDS.toDays(new Date().getTime());
         try {
             jdbc = new JDBC();
         } catch (SQLException e) {
@@ -216,20 +219,21 @@ public class FxController {
             updateLuftFChart();
             updateLuftDChart();
             gemessenZeit.setText(zeitFormat.format(new Date()));
-            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Hitzewarnung");
                 alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                 alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                 alert.show();
             }
-            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Kältewarnung");
                 alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                 alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                 alert.show();
             }
+            newDay();
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -241,20 +245,21 @@ public class FxController {
                 updateLuftFChart();
                 updateLuftDChart();
                 gemessenZeit.setText(zeitFormat.format(new Date()));
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
                     alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
                     alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
+                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -271,20 +276,21 @@ public class FxController {
                 updateLuftFChart();
                 updateLuftDChart();
                 gemessenZeit.setText(zeitFormat.format(new Date()));
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
                     alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
                     alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
+                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -301,20 +307,21 @@ public class FxController {
                 updateLuftFChart();
                 updateLuftDChart();
                 gemessenZeit.setText(zeitFormat.format(new Date()));
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
                     alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
-                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
                     alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
+                newDay();
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
@@ -343,8 +350,8 @@ public class FxController {
             double hmin = hours + (minutes / 60.0);
 
 
-            temperaturY.setLowerBound((int)jdbc.getLowTemperatur24()-5);
-            temperaturY.setUpperBound((int)jdbc.getHighTemperatur24()+5);
+            temperaturY.setLowerBound((int) jdbc.getLowTemperatur24() - 5);
+            temperaturY.setUpperBound((int) jdbc.getHighTemperatur24() + 5);
             temperaturSeries.getData().add((new XYChart.Data<>(hmin, temp)));
             if (fahrenheit.isSelected()) {
                 temp = temp * 1.8 + 32;
@@ -375,8 +382,8 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(date));
             double hmin = hours + (minutes / 60.0);
 
-            luftdruckY.setLowerBound((int)jdbc.getLowLuftdruck24()-15);
-            luftdruckY.setUpperBound((int)jdbc.getHighLuftdruck24()+15);
+            luftdruckY.setLowerBound((int) jdbc.getLowLuftdruck24() - 15);
+            luftdruckY.setUpperBound((int) jdbc.getHighLuftdruck24() + 15);
             luftdruckSeries.getData().add((new XYChart.Data<>(hmin, temp)));
             luftdruckLabel.setText(format("%.0f", temp));
             übersicht_luftdruck.setText(format("%.0f", temp));
@@ -403,10 +410,12 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(date));
             double hmin = hours + (minutes / 60.0);
 
-            int lowLuft = (int)jdbc.getLowLuftfeucht24();
-            int highLuft = (int)jdbc.getHighLuftfeucht24();
-            if ((lowLuft - 5) < 0) lowLuft = 0; else lowLuft = lowLuft - 5;
-            if ((highLuft + 5) > 100) highLuft = 100; else highLuft = highLuft + 5;
+            int lowLuft = (int) jdbc.getLowLuftfeucht24();
+            int highLuft = (int) jdbc.getHighLuftfeucht24();
+            if ((lowLuft - 5) < 0) lowLuft = 0;
+            else lowLuft = lowLuft - 5;
+            if ((highLuft + 5) > 100) highLuft = 100;
+            else highLuft = highLuft + 5;
             luftfeuchtigkeitY.setLowerBound(lowLuft);
             luftfeuchtigkeitY.setUpperBound(highLuft);
             luftfeuchtigkeitSeries.getData().add((new XYChart.Data<>(hmin, temp)));
@@ -435,10 +444,11 @@ public class FxController {
             int minutes = Integer.parseInt(forMin.format(date));
             double hmin = hours + (minutes / 60.0);
 
-            int lowHell = (int)jdbc.getLowHelligkeit24();
-            if ((lowHell - 100) < 0) lowHell = 0; else lowHell = lowHell - 100;
+            int lowHell = (int) jdbc.getLowHelligkeit24();
+            if ((lowHell - 100) < 0) lowHell = 0;
+            else lowHell = lowHell - 100;
             helligkeitY.setLowerBound(lowHell);
-            helligkeitY.setUpperBound((int)jdbc.getHighHelligkeit24()+100);
+            helligkeitY.setUpperBound((int) jdbc.getHighHelligkeit24() + 100);
             helligkeitSeries.getData().add((new XYChart.Data<>(hmin, temp)));
             helligkeitLabel.setText(format("%.1f", temp));
             übersicht_helligkeit.setText(format("%.1f", temp));
@@ -449,7 +459,7 @@ public class FxController {
 
     public void temperaturChart(ArrayList<Double> werte, ArrayList<Long> zeit) {
         temperaturX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
-        temperaturY = new NumberAxis((int)jdbc.getLowTemperatur24() - 5, (int)jdbc.getHighTemperatur24() + 5, 2);  // (yMin, yMax, ticks)
+        temperaturY = new NumberAxis((int) jdbc.getLowTemperatur24() - 5, (int) jdbc.getHighTemperatur24() + 5, 2);  // (yMin, yMax, ticks)
         temperaturX.setLabel("Uhrzeit");
         temperaturY.setLabel("Temperatur in °C");
         temperaturChart = new LineChart<>(temperaturX, temperaturY);
@@ -508,10 +518,12 @@ public class FxController {
 
     public void luftfeuchtigkeitChart(ArrayList<Double> werte, ArrayList<Long> zeit) {
         luftfeuchtigkeitX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
-        int lowLuft = (int)jdbc.getLowLuftfeucht24();
-        int highLuft = (int)jdbc.getHighLuftfeucht24();
-        if ((lowLuft - 5) < 0) lowLuft = 0; else lowLuft = lowLuft - 5;
-        if ((highLuft + 5) > 100) highLuft = 100; else highLuft = highLuft + 5;
+        int lowLuft = (int) jdbc.getLowLuftfeucht24();
+        int highLuft = (int) jdbc.getHighLuftfeucht24();
+        if ((lowLuft - 5) < 0) lowLuft = 0;
+        else lowLuft = lowLuft - 5;
+        if ((highLuft + 5) > 100) highLuft = 100;
+        else highLuft = highLuft + 5;
         luftfeuchtigkeitY = new NumberAxis(lowLuft, highLuft, 5);  // (yMin, yMax, ticks)
         luftfeuchtigkeitX.setLabel("Uhrzeit");
         luftfeuchtigkeitY.setLabel("Luftfeuchtigkeit in %");
@@ -539,9 +551,10 @@ public class FxController {
 
     public void helligkeitChart(ArrayList<Double> werte, ArrayList<Long> zeit) {
         helligkeitX = new NumberAxis(0, 24, 1); // (xMin, xMax, ticks)
-        int lowHell = (int)jdbc.getLowHelligkeit24();
-        if ((lowHell - 100) < 0) lowHell = 0; else lowHell = lowHell - 100;
-        helligkeitY = new NumberAxis(lowHell, jdbc.getHighHelligkeit24()+100, 100);  // (yMin, yMax, ticks)
+        int lowHell = (int) jdbc.getLowHelligkeit24();
+        if ((lowHell - 100) < 0) lowHell = 0;
+        else lowHell = lowHell - 100;
+        helligkeitY = new NumberAxis(lowHell, jdbc.getHighHelligkeit24() + 100, 100);  // (yMin, yMax, ticks)
         helligkeitX.setLabel("Uhrzeit");
         helligkeitY.setLabel("Helligkeit in Lx");
         helligkeitChart = new LineChart<>(helligkeitX, helligkeitY);
@@ -581,6 +594,16 @@ public class FxController {
             properties.store(Files.newOutputStream(path), new Date().toString());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void newDay() {
+        long timestampDay = TimeUnit.MILLISECONDS.toDays(new Date().getTime());
+        if (timestampDay > today) {
+            temperaturSeries.getData().clear();
+            helligkeitSeries.getData().clear();
+            luftdruckSeries.getData().clear();
+            luftfeuchtigkeitSeries.getData().clear();
         }
     }
 }
