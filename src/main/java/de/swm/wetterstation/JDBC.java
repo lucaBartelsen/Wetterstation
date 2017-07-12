@@ -1,5 +1,6 @@
 package de.swm.wetterstation;
 
+import javafx.concurrent.Task;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
@@ -45,124 +46,86 @@ public class JDBC {
         do {
             String updateQuery = "update public.\"Wetter\" set " + type + " = ? where zeitstempel = ?";
             PreparedStatement update = connection.prepareStatement(updateQuery);
-            update.setDouble(1,value);
-            update.setLong(2,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+            update.setDouble(1, value);
+            update.setLong(2, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
             exec = update.executeUpdate();
             if (exec == 0) {
                 String insertQuery = "insert into public.\"Wetter\" (zeitstempel) values (?)";
                 PreparedStatement insert = connection.prepareStatement(insertQuery);
-                insert.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+                insert.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
                 insert.executeUpdate();
             }
-        }while (exec == 0);
-        weatherListener.display(type,value);
+        } while (exec == 0);
+        weatherListener.display(type, value);
     }
 
     public double getHelligkeit() {
         String readQuery = "select helligkeit from \"Wetter\" where zeitstempel = ?";
-        double helligkeit = -1;
-        while(true){
-        try {
-        PreparedStatement read = connection.prepareStatement(readQuery);
-
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
-        ResultSet result = read.executeQuery();
-        while (result.next()){
-            helligkeit = result.getDouble(1);
-        }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (helligkeit != -1){
-            break;
-        }
+        double helligkeit = 0.0;
             try {
-                wait(100);
-            } catch (InterruptedException e) {
+                PreparedStatement read = connection.prepareStatement(readQuery);
+
+                read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+                ResultSet result = read.executeQuery();
+                while (result.next()) {
+                    helligkeit = result.getDouble(1);
+                }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
         return helligkeit;
     }
 
     public double getLuftdruck() {
         String readQuery = "select luftdruck from \"Wetter\" where zeitstempel = ?";
         double helligkeit = 0.0;
-        while(true){
-        try {
-            PreparedStatement read = connection.prepareStatement(readQuery);
+            try {
+                PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
-            ResultSet result = read.executeQuery();
-            while (result.next()){
-                helligkeit = result.getDouble(1);
+                read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+                ResultSet result = read.executeQuery();
+                while (result.next()) {
+                    helligkeit = result.getDouble(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (helligkeit != 0.0){
-            break;
-        }
-        try {
-            wait(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
         return helligkeit;
     }
 
     public double getLuftfeuchtigkeit() {
         String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel = ?";
         double helligkeit = 0.0;
-        while(true){
-        try {
-            PreparedStatement read = connection.prepareStatement(readQuery);
+            try {
+                PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
-            ResultSet result = read.executeQuery();
-            while (result.next()){
-                helligkeit = result.getDouble(1);
+                read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+                ResultSet result = read.executeQuery();
+                while (result.next()) {
+                    helligkeit = result.getDouble(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (helligkeit != 0.0){
-            break;
-        }
-        try {
-            wait(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
         return helligkeit;
     }
 
-    public double getTemperatur() {
-        String readQuery = "select temperatur from \"Wetter\" where zeitstempel = ?";
+    public Double getTemperatur() {
+
+        String readQuery = "select temperatur from \"Wetter\" where zeitstempel <= ? AND temperatur IS NOT NULL order by zeitstempel desc limit 1";
         double helligkeit = 0.0;
-        while(true){
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()));
             ResultSet result = read.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 helligkeit = result.getDouble(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (helligkeit != 0.0){
-        break;
-        }
-        try {
-        wait(100);
-        } catch (InterruptedException e) {
-        e.printStackTrace();
-        }
-        }
+
         return helligkeit;
     }
 
@@ -177,39 +140,39 @@ public class JDBC {
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
             ZonedDateTime dateTime = ZonedDateTime.now();
-            ZonedDateTime start =  dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
+            ZonedDateTime start = dateTime.withHour(0).withMinute(0).withSecond(0).withNano(0);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(start.toInstant().toEpochMilli()));
             ResultSet result = read.executeQuery();
             double savet = 0;
             double saveld = 0;
             double savelf = 0;
             double saveh = 0;
-            while (result.next()){
+            while (result.next()) {
 
-                if(result.getDouble(2) == 0){
+                if (result.getDouble(2) == 0) {
                     temperatur.add(savet);
-                }else{
+                } else {
                     temperatur.add(result.getDouble(2));
                     savet = result.getDouble(2);
                 }
 
-                if(result.getDouble(3) == 0){
+                if (result.getDouble(3) == 0) {
                     luftdruck.add(saveld);
-                }else{
+                } else {
                     luftdruck.add(result.getDouble(3));
                     saveld = result.getDouble(3);
                 }
 
-                if(result.getDouble(4) == 0){
+                if (result.getDouble(4) == 0) {
                     luftfeuchtigkeit.add(savelf);
-                }else{
+                } else {
                     luftfeuchtigkeit.add(result.getDouble(4));
                     savelf = result.getDouble(4);
                 }
 
-                if(result.getDouble(5) == 0){
+                if (result.getDouble(5) == 0) {
                     helligkeit.add(saveh);
-                }else{
+                } else {
                     helligkeit.add(result.getDouble(5));
                     saveh = result.getDouble(5);
                 }
@@ -226,15 +189,15 @@ public class JDBC {
         return uebergabe;
     }
 
-    public double getLowTemperatur24(){
+    public double getLowTemperatur24() {
         String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur DESC";
         double temperatur = 0.0;
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1440);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()) - 1440);
             ResultSet result = read.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 temperatur = result.getDouble(1);
             }
         } catch (SQLException e) {
@@ -243,15 +206,15 @@ public class JDBC {
         return temperatur;
     }
 
-    public double getHighTemperatur24(){
+    public double getHighTemperatur24() {
         String readQuery = "select temperatur from \"Wetter\" where zeitstempel > ? AND temperatur IS NOT NULL ORDER BY temperatur ASC";
         double temperatur = 0.0;
         try {
             PreparedStatement read = connection.prepareStatement(readQuery);
 
-            read.setLong(1,TimeUnit.MILLISECONDS.toMinutes(new Date().getTime())-1440);
+            read.setLong(1, TimeUnit.MILLISECONDS.toMinutes(new Date().getTime()) - 1440);
             ResultSet result = read.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 temperatur = result.getDouble(1);
             }
         } catch (SQLException e) {

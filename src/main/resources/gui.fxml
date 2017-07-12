@@ -275,9 +275,9 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #848484;">
                <children>
-                  <Label layoutX="15.0" layoutY="20.0" text="Messintervall:">
+                  <Label layoutX="14.0" layoutY="35.0" text="Messintervall:">
                      <font>
-                        <Font name="Arabic Typesetting" size="57.0" />
+                        <Font size="38.0" />
                      </font>
                   </Label>
                   <RadioButton fx:id="celsius" layoutX="264.0" layoutY="139.0" mnemonicParsing="false" selected="true" text="Celsius" textFill="#f4f4f4">
@@ -288,52 +288,52 @@
                         <ToggleGroup fx:id="knopf" />
                      </toggleGroup>
                   </RadioButton>
-                  <Label layoutX="367.0" layoutY="315.0" text="warm " textFill="#f4f4f4">
+                  <Label layoutX="367.0" layoutY="281.0" text="warm " textFill="#f4f4f4">
                      <font>
                         <Font name="Vodafone ExB" size="26.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="schwellwertKalt" alignment="TOP_RIGHT" layoutX="264.0" layoutY="245.0" prefHeight="25.0" prefWidth="63.0" text="-10,0">
+                  <TextField fx:id="schwellwertKalt" alignment="TOP_RIGHT" layoutX="266.0" layoutY="230.0" prefHeight="25.0" prefWidth="63.0" text="-10,0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="schwellwertWarm" alignment="TOP_RIGHT" layoutX="266.0" layoutY="315.0" prefHeight="25.0" prefWidth="63.0" text="40,0">
+                  <TextField fx:id="schwellwertWarm" alignment="TOP_RIGHT" layoutX="266.0" layoutY="284.0" prefHeight="25.0" prefWidth="63.0" text="40,0">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="einheitschwellwertkalt" layoutX="333.0" layoutY="245.0" prefHeight="32.0" prefWidth="35.0" text="°C" textFill="#f4f4f4">
+                  <Label fx:id="einheitschwellwertkalt" layoutX="333.0" layoutY="226.0" prefHeight="32.0" prefWidth="35.0" text="°C" textFill="#f4f4f4">
                      <font>
                         <Font name="Vodafone ExB" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="einheitschwellwertwarm" layoutX="333.0" layoutY="315.0" prefHeight="32.0" prefWidth="35.0" text="°C" textFill="#f4f4f4">
+                  <Label fx:id="einheitschwellwertwarm" layoutX="333.0" layoutY="281.0" prefHeight="32.0" prefWidth="35.0" text="°C" textFill="#f4f4f4">
                      <font>
                         <Font name="Vodafone ExB" size="26.0" />
                      </font>
                   </Label>
-                  <Label layoutX="111.0" layoutY="118.0" text="Einheit:">
+                  <Label layoutX="120.0" layoutY="131.0" text="Einheit:">
                      <font>
-                        <Font name="Arabic Typesetting" size="57.0" />
+                        <Font size="38.0" />
                      </font>
                   </Label>
-                  <Label layoutX="35.0" layoutY="222.0" text="Schwellwert:">
+                  <Label layoutX="35.0" layoutY="218.0" text="Schwellwert:">
                      <font>
-                        <Font name="Arabic Typesetting" size="57.0" />
+                        <Font size="38.0" />
                      </font>
                   </Label>
-                  <Label layoutX="367.0" layoutY="245.0" text="kalt" textFill="#f4f4f4">
-                     <font>
-                        <Font name="Vodafone ExB" size="26.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="381.0" layoutY="43.0" text="Minuten" textFill="#f4f4f4">
+                  <Label layoutX="369.0" layoutY="227.0" text="kalt" textFill="#f4f4f4">
                      <font>
                         <Font name="Vodafone ExB" size="26.0" />
                      </font>
                   </Label>
-                  <Spinner layoutX="264.0" layoutY="46.0" prefHeight="25.0" prefWidth="106.0" />
+                  <Label layoutX="390.0" layoutY="43.0" text="Minuten" textFill="#f4f4f4">
+                     <font>
+                        <Font name="Vodafone ExB" size="26.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="slider" editable="true" layoutX="264.0" layoutY="46.0" prefHeight="25.0" prefWidth="106.0" />
                   <RadioButton fx:id="fahrenheit" layoutX="402.0" layoutY="140.0" mnemonicParsing="false" text="Fahrenheit" textFill="#f4f4f4" toggleGroup="$knopf">
                      <font>
                         <Font name="Vodafone ExB" size="25.0" />

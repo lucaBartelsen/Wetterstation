@@ -50,7 +50,7 @@ public class main extends Application{
             }
         }
 
-        System.out.println("Test");
+        System.out.println("Wetter vong Heute");
         launch(args);
 
 
@@ -62,7 +62,7 @@ public class main extends Application{
         Parent parent = loader.load();
         controller = loader.getController();
 
-        primaryStage.setTitle("Test");
+        primaryStage.setTitle("Wetter vong Heute");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
     }
