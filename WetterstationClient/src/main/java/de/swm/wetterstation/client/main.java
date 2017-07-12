@@ -24,7 +24,7 @@ public class main extends Application{
         Parent parent = loader.load();
         controller = loader.getController();
 
-        primaryStage.setTitle("Wetter von Heute");
+        primaryStage.setTitle("Wetterstation");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
     }
