@@ -216,6 +216,20 @@ public class FxController {
             updateLuftFChart();
             updateLuftDChart();
             gemessenZeit.setText(zeitFormat.format(new Date()));
+            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Hitzewarnung");
+                alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
+                alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
+                alert.show();
+            }
+            if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Kältewarnung");
+                alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
+                alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
+                alert.show();
+            }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -227,6 +241,20 @@ public class FxController {
                 updateLuftFChart();
                 updateLuftDChart();
                 gemessenZeit.setText(zeitFormat.format(new Date()));
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Hitzewarnung");
+                    alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
+                    alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
+                    alert.show();
+                }
+                if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Kältewarnung");
+                    alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
+                    alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
+                    alert.show();
+                }
             }));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
