@@ -117,6 +117,7 @@ public class exportController {
             }
 
             csvOutput.close();
+            Runtime.getRuntime().exec("explorer /e,/select, " + file.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
