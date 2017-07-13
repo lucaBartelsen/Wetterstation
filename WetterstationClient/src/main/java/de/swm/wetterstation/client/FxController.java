@@ -700,13 +700,13 @@ public class FxController {
         luftfeuchtigkeitSeries.getData().clear();
         timelineNoChart();
         luftfDay = luftfDay + 1;
-        luftdruckChart(jdbc.Luftdruck(luftfDay,luftfDay+1),jdbc.Zeit(luftfDay,luftfDay+1));
+        luftdruckChart(jdbc.Luftfeuchtigkeit(luftfDay,luftfDay+1),jdbc.Zeit(luftfDay,luftfDay+1));
     }
 
     public void helligkeitBack(ActionEvent actionEvent) {
         helligkeitSeries.getData().clear();
         timelineNoChart();
-        helligkeitChart(jdbc.Luftfeuchtigkeit(hellDay-1,hellDay),jdbc.Zeit(hellDay-1,hellDay));
+        helligkeitChart(jdbc.Helligkeit(hellDay-1,hellDay),jdbc.Zeit(hellDay-1,hellDay));
         hellDay = hellDay - 1;
     }
 
@@ -714,7 +714,7 @@ public class FxController {
         helligkeitSeries.getData().clear();
         timelineNoChart();
         hellDay = hellDay + 1;
-        helligkeitChart(jdbc.Luftfeuchtigkeit(hellDay,hellDay+1),jdbc.Zeit(hellDay,hellDay+1));
+        helligkeitChart(jdbc.Helligkeit(hellDay,hellDay+1),jdbc.Zeit(hellDay,hellDay+1));
     }
 
     public void newTimeline(){
