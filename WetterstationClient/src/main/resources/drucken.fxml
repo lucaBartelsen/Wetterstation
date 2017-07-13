@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #848484;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #848484;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.client.exportController">
    <children>
       <Label layoutX="25.0" layoutY="36.0" text="Speicherort auswählen:" textFill="#f4f4f4">
          <font>
@@ -19,12 +18,12 @@
             <Font name="Vodafone ExB" size="30.0" />
          </font>
       </Label>
-      <Button layoutX="230.0" layoutY="305.0" mnemonicParsing="false" text="Drucken">
+      <Button fx:id="export" layoutX="230.0" layoutY="305.0" mnemonicParsing="false" onAction="#exportPress" text="Exportieren">
          <font>
             <Font size="28.0" />
          </font>
       </Button>
-      <Button layoutX="31.0" layoutY="87.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="141.0" text="durchsuchen...">
+      <Button fx:id="dateiSucher" layoutX="31.0" layoutY="87.0" mnemonicParsing="false" onAction="#dateiSucherPress" prefHeight="48.0" prefWidth="141.0" text="durchsuchen...">
          <font>
             <Font size="18.0" />
          </font>
@@ -34,8 +33,8 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <DatePicker layoutX="71.0" layoutY="214.0" prefHeight="25.0" prefWidth="124.0" />
-      <DatePicker layoutX="282.0" layoutY="214.0" prefHeight="25.0" prefWidth="124.0" />
+      <DatePicker fx:id="vonDatum" layoutX="71.0" layoutY="214.0" prefHeight="25.0" prefWidth="124.0" />
+      <DatePicker fx:id="bisDatum" layoutX="282.0" layoutY="214.0" prefHeight="25.0" prefWidth="124.0" />
       <Label layoutX="31.0" layoutY="213.0" text="von">
          <font>
             <Font size="17.0" />

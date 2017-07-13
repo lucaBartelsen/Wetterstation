@@ -1,33 +1,25 @@
 package de.swm.wetterstation.client;
 
-import com.csvreader.CsvWriter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +31,6 @@ import static java.lang.String.format;
  */
 public class FxController {
 
-    public Button drucken;
     @FXML
     private Spinner<Integer> slider;
     @FXML
@@ -78,6 +69,7 @@ public class FxController {
     private Label luftfeuchtigkeitLabel;
     @FXML
     private Label temperaturLabel;
+
     @FXML
     private BorderPane temperaturPane;
     @FXML
@@ -228,14 +220,14 @@ public class FxController {
             if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Hitzewarnung");
-                alert.setHeaderText("Es ist zu Heiß");
+                alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                 alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                 alert.show();
             }
             if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Kältewarnung");
-                alert.setHeaderText("Es ist zu Kalt");
+                alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                 alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                 alert.show();
             }
@@ -254,14 +246,14 @@ public class FxController {
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
-                    alert.setHeaderText("Es ist zu Heiß");
+                    alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
-                    alert.setHeaderText("Es ist zu Kalt");
+                    alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
@@ -285,14 +277,14 @@ public class FxController {
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
-                    alert.setHeaderText("Es ist zu Heiß");
+                    alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
-                    alert.setHeaderText("Es ist zu Kalt");
+                    alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
@@ -316,14 +308,14 @@ public class FxController {
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) > Double.parseDouble(schwellwertWarm.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Hitzewarnung");
-                    alert.setHeaderText("Es ist zu Heiß");
+                    alert.setHeaderText("Es ist zu  Heiß vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf über " + schwellwertWarm.getText() + " " + einheit.getText() + " gestiegen");
                     alert.show();
                 }
                 if (Double.parseDouble(übersicht_temperatur.getText().replace(",", ".")) < Double.parseDouble(schwellwertKalt.getText().replace(",", "."))) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Kältewarnung");
-                    alert.setHeaderText("Es ist zu Kalt");
+                    alert.setHeaderText("Es ist zu  Kalt vong Temperatur her");
                     alert.setContentText("Die Temperatur ist auf unter " + schwellwertKalt.getText() + " " + einheit.getText() + " gesunken");
                     alert.show();
                 }
@@ -611,21 +603,5 @@ public class FxController {
             luftfeuchtigkeitSeries.getData().clear();
             today = timestampDay;
         }
-    }
-
-    public void druckenPress(ActionEvent actionEvent) {
-
-        Stage stage = new Stage();
-        Parent parent = null;
-        try {
-            parent = FXMLLoader.load(getClass().getResource("/drucken.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene scene = new Scene(parent);
-        stage.setScene(scene);
-        stage.setTitle("Exportieren");
-        stage.show();
-
     }
 }

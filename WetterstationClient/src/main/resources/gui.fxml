@@ -109,7 +109,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Button fx:id="drucken" layoutX="508.0" layoutY="280.0" mnemonicParsing="false" onAction="#druckenPress" style="-fx-background-color: #f9faff;" text="Drucken">
+                  <Button fx:id="drucken" layoutX="468.0" layoutY="284.0" mnemonicParsing="false" onAction="#druckenPress" style="-fx-background-color: #f9faff;" text="Exportieren">
                      <font>
                         <Font name="Aparajita" size="31.0" />
                      </font>
