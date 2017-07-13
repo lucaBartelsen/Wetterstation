@@ -135,11 +135,16 @@ public class exportController {
 
         //Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV Datei (*.csv)", "*.csv");
+        String userDirectoryString = System.getProperty("user.home");
+        File userDirectory = new File(userDirectoryString);
+        fileChooser.setInitialDirectory(userDirectory);
         fileChooser.getExtensionFilters().add(extFilter);
 
         //Show save file dialog
         file = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        dateipfad.setText(file.toString());
+        if (file != null){
+            dateipfad.setText(file.toString());
+        }
 
     }
 }
