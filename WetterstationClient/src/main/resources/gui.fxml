@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.client.FxController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" stylesheets="@../../../../../WetterstationRepo/WetterstationClient/src/main/resources/design.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swm.wetterstation.client.FxController">
   <tabs>
     <Tab text="Übersicht">
       <content>
@@ -157,6 +157,26 @@
                               <Insets left="1.0" top="10.0" />
                            </HBox.margin>
                         </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="124.0">
+                           <children>
+                              <Button fx:id="temperaturBack" mnemonicParsing="false" onAction="#temperaturBack" prefHeight="50.0" prefWidth="61.0" text="⇦">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="temperaturVor" mnemonicParsing="false" onAction="#temperaturVor" prefHeight="50.0" prefWidth="61.0" text="⇨">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </HBox>
                      </children>
                   </HBox>
                </top>
@@ -193,6 +213,26 @@
                               <Insets left="1.0" top="10.0" />
                            </HBox.margin>
                         </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="124.0">
+                           <children>
+                              <Button fx:id="luftdruckBack" mnemonicParsing="false" onAction="#luftdruckBack" prefHeight="50.0" prefWidth="61.0" text="⇦">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="luftdruckVor" mnemonicParsing="false" onAction="#luftdruckVor" prefHeight="50.0" prefWidth="61.0" text="⇨">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </HBox>
                      </children>
                   </HBox>
                </top>
@@ -229,6 +269,26 @@
                               <Insets left="1.0" top="10.0" />
                            </HBox.margin>
                         </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="124.0">
+                           <children>
+                              <Button fx:id="luftfeuchtigkeitBack" mnemonicParsing="false" onAction="#luftfeuchtigkeitBack" prefHeight="50.0" prefWidth="61.0" text="⇦">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="luftfeuchtigkeitVor" mnemonicParsing="false" onAction="#luftfeuchtigkeitVor" prefHeight="50.0" prefWidth="61.0" text="⇨">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </HBox>
                      </children>
                   </HBox>
                </top>
@@ -265,6 +325,26 @@
                               <Insets left="1.0" top="10.0" />
                            </HBox.margin>
                         </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="124.0">
+                           <children>
+                              <Button fx:id="helligketiBack" mnemonicParsing="false" onAction="#helligkeitBack" prefHeight="50.0" prefWidth="61.0" text="⇦">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="helligketiVor" mnemonicParsing="false" onAction="#helligkeitVor" prefHeight="50.0" prefWidth="61.0" text="⇨">
+                                 <font>
+                                    <Font name="Impact" size="25.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </HBox>
                      </children>
                   </HBox>
                </top>

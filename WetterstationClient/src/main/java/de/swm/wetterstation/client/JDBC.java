@@ -3,6 +3,7 @@ package de.swm.wetterstation.client;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.sql.*;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -325,6 +326,119 @@ public class JDBC {
         return temperatur;
     }
 
+    public ArrayList<Long> Zeit(long start, long ende){
+        String readQuery = "select zeitstempel from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ? order by zeitstempel asc";
+        ArrayList<Long> zeit = new ArrayList<>();
+        System.out.println("start: "+ Instant.ofEpochMilli(TimeUnit.DAYS.toMillis(start)));
+        System.out.println("ende: "+ Instant.ofEpochMilli(TimeUnit.DAYS.toMillis(ende)));
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, TimeUnit.DAYS.toMinutes(start));
+            read.setLong(2, TimeUnit.DAYS.toMinutes(ende));
+            ResultSet result = read.executeQuery();
+            double savet = 0;
+            while (result.next()) {
+                zeit.add(result.getLong(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return zeit;
+    }
+    public ArrayList<Double> Temperatur(long start, long ende){
+        String readQuery = "select temperatur from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ? order by zeitstempel asc";
+        ArrayList<Double> temperatur = new ArrayList<>();
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, TimeUnit.DAYS.toMinutes(start));
+            read.setLong(2, TimeUnit.DAYS.toMinutes(ende));
+            ResultSet result = read.executeQuery();
+            double savet = 0;
+            while (result.next()) {
+
+                if (result.getDouble(1) == 0) {
+                    temperatur.add(savet);
+                } else {
+                    temperatur.add(result.getDouble(1));
+                    savet = result.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return temperatur;
+    }
+
+    public ArrayList<Double> Luftdruck(long start, long ende){
+        String readQuery = "select luftdruck from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ?";
+        ArrayList<Double> luftdruck = new ArrayList<>();
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, TimeUnit.DAYS.toMinutes(start));
+            read.setLong(2, TimeUnit.DAYS.toMinutes(ende));
+            ResultSet result = read.executeQuery();
+            double saveld = 0;
+            while (result.next()) {
+
+                if (result.getDouble(1) == 0) {
+                    luftdruck.add(saveld);
+                } else {
+                    luftdruck.add(result.getDouble(1));
+                    saveld = result.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return luftdruck;
+    }
+    public ArrayList<Double> Luftfeuchtigkeit(long start, long ende){
+        String readQuery = "select luftfeuchtigkeit from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ?";
+        ArrayList<Double> luftfeuchtigkeit = new ArrayList<>();
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, TimeUnit.DAYS.toMinutes(start));
+            read.setLong(2, TimeUnit.DAYS.toMinutes(ende));
+            ResultSet result = read.executeQuery();
+            double savelf = 0;
+            while (result.next()) {
+
+                if (result.getDouble(1) == 0) {
+                    luftfeuchtigkeit.add(savelf);
+                } else {
+                    luftfeuchtigkeit.add(result.getDouble(1));
+                    savelf = result.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return luftfeuchtigkeit;
+    }
+    public ArrayList<Double> Helligkeit(long start, long ende){
+        String readQuery = "select zeitstempel, temperatur, luftdruck, luftfeuchtigkeit, helligkeit from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ?";
+        ArrayList<Double> helligkeit = new ArrayList<>();
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, TimeUnit.DAYS.toMinutes(start));
+            read.setLong(2, TimeUnit.DAYS.toMinutes(ende));
+            ResultSet result = read.executeQuery();
+            double saveh = 0;
+            while (result.next()) {
+
+                if (result.getDouble(1) == 0) {
+                    helligkeit.add(saveh);
+                } else {
+                    helligkeit.add(result.getDouble(1));
+                    saveh = result.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return helligkeit;
+    }
     public ArrayList[] Wetterdaten(long start, long ende){
         String readQuery = "select zeitstempel, temperatur, luftdruck, luftfeuchtigkeit, helligkeit from \"Wetter\" where zeitstempel >= ? AND zeitstempel < ?";
         ArrayList<Double> temperatur = new ArrayList<>();
