@@ -324,4 +324,63 @@ public class JDBC {
         }
         return temperatur;
     }
+
+    public ArrayList[] Wetterdaten(long time){
+        String readQuery = "select zeitstempel, temperatur, luftdruck, luftfeuchtigkeit, helligkeit from \"Wetter\" where zeitstempel >= ? AND where zeitstempel < ?";
+        ArrayList<Double> temperatur = new ArrayList<>();
+        ArrayList<Double> luftdruck = new ArrayList<>();
+        ArrayList<Double> luftfeuchtigkeit = new ArrayList<>();
+        ArrayList<Double> helligkeit = new ArrayList<>();
+        ArrayList<Long> zeitstempel = new ArrayList<>();
+        ArrayList[] uebergabe = new ArrayList[5];
+        try {
+            PreparedStatement read = connection.prepareStatement(readQuery);
+            read.setLong(1, time);
+            read.setLong(2, time+1440);
+            ResultSet result = read.executeQuery();
+            double savet = 0;
+            double saveld = 0;
+            double savelf = 0;
+            double saveh = 0;
+            while (result.next()) {
+
+                if (result.getDouble(2) == 0) {
+                    temperatur.add(savet);
+                } else {
+                    temperatur.add(result.getDouble(2));
+                    savet = result.getDouble(2);
+                }
+
+                if (result.getDouble(3) == 0) {
+                    luftdruck.add(saveld);
+                } else {
+                    luftdruck.add(result.getDouble(3));
+                    saveld = result.getDouble(3);
+                }
+
+                if (result.getDouble(4) == 0) {
+                    luftfeuchtigkeit.add(savelf);
+                } else {
+                    luftfeuchtigkeit.add(result.getDouble(4));
+                    savelf = result.getDouble(4);
+                }
+
+                if (result.getDouble(5) == 0) {
+                    helligkeit.add(saveh);
+                } else {
+                    helligkeit.add(result.getDouble(5));
+                    saveh = result.getDouble(5);
+                }
+                zeitstempel.add(result.getLong(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        uebergabe[0] = zeitstempel;
+        uebergabe[1] = temperatur;
+        uebergabe[2] = luftdruck;
+        uebergabe[3] = luftfeuchtigkeit;
+        uebergabe[4] = helligkeit;
+        return uebergabe;
+    }
 }

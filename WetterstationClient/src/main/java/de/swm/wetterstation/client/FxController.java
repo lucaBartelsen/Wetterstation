@@ -1,9 +1,11 @@
 package de.swm.wetterstation.client;
 
+import com.csvreader.CsvWriter;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -12,14 +14,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +35,7 @@ import static java.lang.String.format;
  */
 public class FxController {
 
+    public Button drucken;
     @FXML
     private Spinner<Integer> slider;
     @FXML
@@ -69,7 +74,6 @@ public class FxController {
     private Label luftfeuchtigkeitLabel;
     @FXML
     private Label temperaturLabel;
-
     @FXML
     private BorderPane temperaturPane;
     @FXML
@@ -602,6 +606,75 @@ public class FxController {
             luftdruckSeries.getData().clear();
             luftfeuchtigkeitSeries.getData().clear();
             today = timestampDay;
+        }
+    }
+
+    public void druckenPress(ActionEvent actionEvent) {
+        String outputFile = "ausgabe.csv";
+
+        ArrayList<Double> temperatur = null;
+        ArrayList<Double> luftdruck = null;
+        ArrayList<Double> luftfeuchtigkeit = null;
+        ArrayList<Double> helligkeit = null;
+        ArrayList<Long> zeit = null;
+        int n = 0;
+        for (ArrayList a : jdbc.Wetterdaten(2035785635)) {
+            n++;
+            if (n == 1) {
+                zeit = a;
+            } else {
+                if (n == 2) {
+                    temperatur = a;
+                } else {
+                    if (n == 3) {
+                        luftdruck = a;
+                    } else {
+                        if (n == 4) {
+                            luftfeuchtigkeit = a;
+                        } else {
+                            helligkeit = a;
+                        }
+                    }
+                }
+            }
+        }
+
+        // before we open the file check to see if it already exists
+        boolean alreadyExists = new File(outputFile).exists();
+
+        try {
+            // use FileWriter constructor that specifies open for appending
+            CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ';');
+
+            // if the file didn't already exist then we need to write out the header line
+            if (!alreadyExists)
+            {
+                csvOutput.write("Uhrzeit");
+                csvOutput.write("Temperatur");
+                csvOutput.write("Luftdruck");
+                csvOutput.write("Luftfeuchtigkeit");
+                csvOutput.write("Helligkeit");
+                csvOutput.endRecord();
+            }
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yy HH:mm");
+            int i = 0;
+            for (long l: zeit) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(TimeUnit.MINUTES.toMillis(l));
+                csvOutput.write(formatter.format(calendar.getTime()));
+                csvOutput.write(temperatur.get(i).toString());
+                csvOutput.write(luftdruck.get(i).toString());
+                csvOutput.write(luftfeuchtigkeit.get(i).toString());
+                csvOutput.write(helligkeit.get(i).toString());
+                csvOutput.endRecord();
+                i++;
+            }
+
+
+
+            csvOutput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
